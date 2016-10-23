@@ -110,6 +110,11 @@
 	<profiles>
 		<profile>
 			<id>prod</id>
+			<activation>
+				<property>
+					<name>env.DYNO</name>
+				</property>
+			</activation>
 			<properties>
 				<env.db.host>elvynia-RAMM-mongo-2-6-1.mongo-2-6.cloud.unit</env.db.host>
 				<env.db.port>27017</env.db.port>
