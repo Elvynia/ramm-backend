@@ -119,7 +119,7 @@
 				<env.db.host>ds011664.mlab.com</env.db.host>
 				<env.db.port>11664</env.db.port>
 				<env.db.user>heroku_x3xhmn0l</env.db.user>
-				<env.db.pwd>Madeitkom7</env.db.pwd>
+				<env.db.pwd>d364eba7dlpmqkc95df84cujal</env.db.pwd>
 				<env.db.name>heroku_x3xhmn0l</env.db.name>
 			</properties>
 		</profile>

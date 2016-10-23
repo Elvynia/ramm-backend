@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
 	xsi:schemaLocation="
@@ -14,21 +13,58 @@
         http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
 	<mvc:annotation-driven />
-	<mvc:default-servlet-handler/>
-	
+	<mvc:default-servlet-handler />
+
 	<context:component-scan base-package="org.arcanic.ramm.controller" />
 	<context:property-placeholder location="classpath:database.properties" />
 
-	<mongo:mongo id="mongo" host="${database.host}" port="${database.port}" />
-	<bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
-	    <constructor-arg name="username" value="${database.user}" />
-	    <constructor-arg name="password" value="${database.password}" />
+	<bean id="mongoSeedListID" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="mongoSeedlID" />
+			</list>
+		</constructor-arg>
 	</bean>
-	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-		<constructor-arg name="mongo" ref="mongo" />
+
+	<bean id="mongoSeedlID" class="com.mongodb.ServerAddress">
+		<constructor-arg type="java.lang.String" name="host" value="${database.host}" />
+		<constructor-arg type="int" name="port" value="${database.port}" />
+	</bean>
+
+	<bean id="mongoCredentialListID" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref bean="mongoCredentialID" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<bean id="mongoCredentialID" class="com.mongodb.MongoCredential">
+		<constructor-arg name="mechanism" value="#{T(com.mongodb.AuthenticationMechanism).SCRAM_SHA_1}" />
+		<constructor-arg type="java.lang.String" name="userName" value="${database.user}" />
+		<constructor-arg type="java.lang.String" name="source" value="${database.name}" />
+		<constructor-arg type="char[]" name="password" value="${database.password}" />
+	</bean>
+
+	<bean id="mongoClientID" class="com.mongodb.MongoClient">
+		<constructor-arg ref="mongoSeedListID" />
+		<constructor-arg ref="mongoCredentialID" />
+	</bean>
+
+	<bean id="simpleMongoDbFactoryID" class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
+		<constructor-arg ref="mongoClientID" />
 		<constructor-arg name="databaseName" value="${database.name}" />
-		<constructor-arg name="userCredentials" ref="userCredentials"/>
 	</bean>
+
+	<bean class="org.springframework.data.mongodb.core.MongoFactoryBean" id="mongo">
+		<property name="host" value="${database.host}" />
+		<property name="port" value="${database.port}" />
+	</bean>
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg ref="simpleMongoDbFactoryID" />
+	</bean>
+
 	<mongo:repositories base-package="org.arcanic.ramm.repository" />
 
 </beans>
