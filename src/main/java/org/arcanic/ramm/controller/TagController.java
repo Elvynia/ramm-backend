@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.arcanic.ramm.document.Memory;
-import org.arcanic.ramm.repository.MemoryRepository;
+import org.arcanic.ramm.document.Tag;
+import org.arcanic.ramm.repository.TagRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,25 +19,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/memory")
-public class MemoryController {
+@RequestMapping("/tag")
+public class TagController {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(MemoryController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TagController.class);
 
 	@Autowired
-	private MemoryRepository repository;
+	private TagRepository repository;
 
 	@RequestMapping(method = RequestMethod.POST, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Memory create(@RequestBody final Memory memory, final HttpServletResponse response) {
-		MemoryController.LOGGER.debug("Creating memory with name '{}'.", memory.content);
-		Memory result = null;
-		if (memory.getId() == null || this.repository.findOne(memory.getId()) == null) {
-			result = repository.save(memory);
+	public Tag create(@RequestBody final Tag tag, final HttpServletResponse response) {
+		TagController.LOGGER.debug("Creating tag with name '{}'.", tag.name);
+		Tag result = null;
+		if (tag.getId() == null || this.repository.findOne(tag.getId()) == null) {
+			result = repository.save(tag);
 			response.setStatus(HttpStatus.CREATED.value());
 		} else {
-			MemoryController.LOGGER.error("Cannot create memory, id already exists.");
-			result = this.repository.findOne(memory.getId());
+			TagController.LOGGER.error("Cannot create tag, id already exists.");
+			result = this.repository.findOne(tag.getId());
 			response.setStatus(HttpStatus.METHOD_NOT_ALLOWED.value());
 		}
 		return result;
@@ -45,9 +45,9 @@ public class MemoryController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Memory read(@PathVariable final String id, final HttpServletResponse response) {
-		MemoryController.LOGGER.debug("Reading tag with id '{}'.", id);
-		Memory result = this.repository.findOne(id);
+	public Tag read(@PathVariable final String id, final HttpServletResponse response) {
+		TagController.LOGGER.debug("Reading tag with id '{}'.", id);
+		Tag result = this.repository.findOne(id);
 		if (id != null && result != null) {
 			result = repository.findOne(id);
 		} else {
@@ -58,13 +58,13 @@ public class MemoryController {
 
 	@RequestMapping(method = RequestMethod.PUT, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Memory update(@RequestBody final Memory memory, final HttpServletResponse response) {
-		Memory result = this.repository.findOne(memory.getId());
-		if (memory.getId() != null && result != null) {
-			MemoryController.LOGGER.debug("Updating memory with name '{}'.", memory.content);
-			result = repository.save(memory);
+	public Tag update(@RequestBody final Tag tag, final HttpServletResponse response) {
+		Tag result = this.repository.findOne(tag.getId());
+		if (tag.getId() != null && result != null) {
+			TagController.LOGGER.debug("Updating tag with name '{}'.", tag.name);
+			result = repository.save(tag);
 		} else {
-			MemoryController.LOGGER.error("Cannot update memory, id not found.");
+			TagController.LOGGER.error("Cannot update tag, id not found.");
 			response.setStatus(HttpStatus.METHOD_NOT_ALLOWED.value());
 		}
 		return result;
@@ -73,7 +73,7 @@ public class MemoryController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable final String id, final HttpServletResponse response) {
 		if (id != null && this.repository.findOne(id) != null) {
-			MemoryController.LOGGER.debug("Deleting memory with id '{}'.", id);
+			TagController.LOGGER.debug("Deleting tag with id '{}'.", id);
 			repository.delete(id);
 			response.setStatus(HttpStatus.NO_CONTENT.value());
 		} else {
@@ -83,8 +83,8 @@ public class MemoryController {
 
 	@RequestMapping(method = RequestMethod.GET, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Memory> list() {
-		MemoryController.LOGGER.debug("Fetching all memories in database.");
+	public List<Tag> list() {
+		TagController.LOGGER.debug("Fetching all tags in database.");
 		return repository.findAll();
 	}
 }

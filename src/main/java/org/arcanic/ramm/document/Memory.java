@@ -6,13 +6,10 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "memories")
-public class Memory {
-	private String _id;
+public class Memory extends MongoDocument {
 	public String content;
 	@DBRef
 	public List<Tag> tags;
 	
-	public String getId() {
-		return this._id;
-	}
+	
 }
