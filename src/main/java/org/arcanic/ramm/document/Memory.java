@@ -7,9 +7,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "memories")
 public class Memory extends MongoDocument {
-	public String content;
 	@DBRef
-	public List<Tag> tags;
+	public Bubble root;
+	@DBRef
+	public List<Bubble> children;
 	
 	
 }

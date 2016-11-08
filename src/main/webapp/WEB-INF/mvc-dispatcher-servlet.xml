@@ -12,10 +12,12 @@
         http://www.springframework.org/schema/data/mongo
         http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
 
+	<!-- Configuration de base MVC avec transformation de messages JSON -->
 	<mvc:annotation-driven />
+	<!-- Ajout de la gestion des ressources statiques (JS/CSS) -->
 	<mvc:default-servlet-handler />
 
-	<context:component-scan base-package="org.arcanic.ramm.controller" />
+	<context:component-scan base-package="org.arcanic.ramm.controller, org.arcanic.ramm.service" />
 	<context:property-placeholder location="classpath:database.properties" />
 
 	<bean id="mongoSeedListID" class="java.util.ArrayList">
