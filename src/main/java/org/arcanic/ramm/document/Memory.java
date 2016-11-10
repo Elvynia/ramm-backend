@@ -8,9 +8,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "memories")
 public class Memory extends MongoDocument {
 	@DBRef
-	public Bubble root;
-	@DBRef
 	public List<Bubble> children;
-	
-	
+	@DBRef
+	public Bubble root;
+
 }

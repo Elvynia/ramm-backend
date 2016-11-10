@@ -7,9 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "bubbles")
 public class Bubble extends MongoDocument {
-	public String content;
 	@Transient
 	public int color;
+	public String content;
 	@Transient
 	public Vector3 position;
 }

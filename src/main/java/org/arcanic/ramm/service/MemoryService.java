@@ -1,7 +1,5 @@
 package org.arcanic.ramm.service;
 
-import java.util.Random;
-
 import org.arcanic.ramm.document.Bubble;
 import org.arcanic.ramm.document.Memory;
 import org.arcanic.ramm.repository.BubbleRepository;
@@ -11,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MemoryService {
-	
+
 	@Autowired
 	private BubbleRepository repository;
 
