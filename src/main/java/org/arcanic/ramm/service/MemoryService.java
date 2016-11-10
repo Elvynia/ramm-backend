@@ -14,7 +14,7 @@ public class MemoryService {
 	private BubbleRepository repository;
 
 	public Memory getRoot() {
-		Memory memory = new Memory();
+		final Memory memory = new Memory();
 		memory.root = new Bubble();
 		memory.root.content = "ROOT";
 		memory.root.color = 13684944;
@@ -22,9 +22,9 @@ public class MemoryService {
 		memory.children = this.repository.findAll();
 		for (final Bubble child : memory.children) {
 			child.color = 16765136;
-			int randX = (int) Math.floor(Math.random() * 100);
-			int randY = (int) Math.floor(Math.random() * 100);
-			int randZ = (int) Math.floor(Math.random() * 100);
+			final int randX = (int) Math.floor((Math.random() - 0.5) * 100);
+			final int randY = (int) Math.floor((Math.random() - 0.5) * 100);
+			final int randZ = (int) Math.floor((Math.random() - 0.5) * 100);
 			child.position = new Vector3(randX, randY, randZ);
 		}
 		return memory;
